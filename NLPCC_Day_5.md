@@ -19,7 +19,7 @@
 SIGKDD 2017 [Cascade Ranking for Operational E-commerce Search](https://arxiv.org/pdf/1706.02093.pdf)
 
 ## Best Papers
-第二部分是 Best Papers 分享，这次会议总共选出 4 篇英文和 1 篇 中文。
+第二部分是 Best Papers 分享，这次会议总共选出 4 篇英文和 1 篇中文。
 ### Paper 1
 第一篇 Best Paper 分享是来自南开大学的 **Hierarchical Attention Based Semi-supervised Network Representation Learning**. 这是一篇做 Network embedding 的工作，Network 在社交网络，生物信息学等中是常用的数据结构。常用的 Network embedding 方法是 DeepWalk 和 node2vec 等。本篇 Paper 提出了 SHANE 模型，使用 hierarchical attention network 依次编码词和句子，即编码 Node 的 text 信息。然后将 text-based embeddings 和 structure-based embeddings 集成到一块。最后加入 Node 的 Label 信息。在 Link Prediction (也就是看任意两个 Nodes 之间有没有关系) 和 Node Classification 任务上表现优于其他方法。
 ### Paper 2
@@ -27,25 +27,33 @@ SIGKDD 2017 [Cascade Ranking for Operational E-commerce Search](https://arxiv.or
 
 ## Industrial Talk
 ## Talk 1
-来自智能一点的 CEO **Dr.Hu** 介绍了为购物设计的智能客服 **ROBOTA** 系统。
+智能一点的 CEO **Dr.Hu** 介绍了为购物设计的智能客服 **ROBOTA** 系统。主要内容还是非常基础的 Pipeline 等方法。
 ## Talk 2
-来自英语流利说的 CEO **Dr.Lin** 介绍了 **Human learning** 的概念。Dr.Lin 的代表作是关于文本摘要的：A Class of Submodular Functions for Document Summarization.
+英语流利说的 CEO **Dr.Lin** 介绍了 **Human learning** 的概念，没有设计太多算法层面的知识。Dr.Lin 的代表作是关于文本摘要的：**A Class of Submodular Functions for Document Summarization**.
 
 # 2. 下午
 
 ## 2.1 方正
-方正的 Workshop 包括 5 个分享，前两个是方正自己业务介绍和核心技术介绍，后三个分别是微软亚洲研究院的[周明](https://www.microsoft.com/en-us/research/people/mingzhou/), 
+方正 Workshop 包括 5 个分享，前两个是方正自己业务介绍和核心技术介绍，后三个分别是微软亚洲研究院的[周明](https://www.microsoft.com/en-us/research/people/mingzhou/), 
 北京大学的[万小军](http://59.108.48.5/lcwm/wanxj/).
 ### 2.1.1 Applications and Exploration of NLP & CC technologies in the field of intelligent media, by Xiaojun Huang
-方正业务介绍，主要是书籍，出版，报刊等业务，比较有吸引力的业务有两点：根据公式搜索出原文；拷贝 pdf 中的公式粘贴到 word 中就可以自动变成可编辑的公式。
+方正业务介绍，主要是书籍，出版，报刊等业务，比较有吸引力的业务有**两点**：根据公式搜索出原文；
+截取 pdf 中的公式粘贴到 word 中就可以自动变成可编辑的公式。
 
 ### 2.1.2 Application and Innovation of CNDPLAB in the Field of Knowledge Service, by Haihua Xie
-方正算法模型介绍，包括：
+方正算法模型介绍，主要支撑方正业务，比如对书籍自动分类；用户 Query 解析搜索出符合条件的书籍；根据知识图谱找到相关书籍等。具体包括：
 - 根据书的内容进行多标签分类
-
+基于 Fasttext, CNNs 和 RNNs 的基于 char 和 word 的文本分类模型，最终结果是三个模型的集成结果。
 - Query 的语义解析
-- 基于 KB 检索书
+比如用户输入 Query “莫言近三年的小说”，那么语义解析的结果就是：`{'label': 'novel', 'Year': '>=2015', author: 'moyan'}`，这样就可以转换成查询去数据库查找。
+
 ### 2.1.3 KB-QA: Recent Progress of Technologies and Application, by Ming Zhou
+周明老师做了关于 KBQA 最新研究的报告。以下是报告总结。
+KBQA 的整个流程是：输入问题，首先做问题解析，得到问题的语义表达式，然后在知识库中查找。如果有多个候选，则还需要排序找出最佳候选。 
+KBQA 可以分为基于语义解析 (Semantic parsing) 的 KBQA 和基于答案排序 (Answer Ranking) 的 KBQA. 
+基于语义解析的 KBQA 就是把自然语言转换为逻辑表达式子，一般是 Lamda 算子表示。这个转换方法一般有两种，即基于语法的解析和基于神经网络的解析。基于语法的解析使用指定的语法规则，生成语义解析树，通常有 CCG, SCFG 和 Lamda-DCS 语法。基于神经网络的解析最基础的做法是 Seq2Seq 模型，今年的新工作 Semantic Parsing with Coarse-to-Fine Decoding 也是基于 Seq2Seq 框架，提出了 sketch decoding 概念，即一步 encode，多步 decode.
+然后介绍了微软今年的新工作：Semantic Parsing with Multi-Gates and Syntax Constraints, 主题是基于表格的语义解析，这里基于表格而不是知识库，是因为有些数据是基于表格的，基于知识库的数据获取比较昂贵。
+基于答案排序的 KBQA 首先找到实体，在 KB 中找到实体的属性，如果有多个候选答案，根据多种特征做 ranking. 可以对 Question 进行 embedding, 候选答案进行 embedding，根据两个 embedding 的 distance 进行排序。通常基于答案排序的方法是优于基于语义解析的方法的。
 ### 2.1.4 New Progress in Machine Writing, by Xiaojun Wan
 ### 2.1.5 Semantic knowledge discovery system which is based on hybrid of knowledge organization system and deep learning, by Tan Sun
 
@@ -55,9 +63,10 @@ SIGKDD 2017 [Cascade Ranking for Operational E-commerce Search](https://arxiv.or
 
 ### 2.2.1 Towards Building More Intelligent Chatbots, by Minlie HUANG
 在以下三个角度剖析了 Chatbot 目前遇到的三个问题：
-- Semantics
-- Consistency
-- Instructiveness
+- Semantics: Content, Context, Scene
+- Consistency: Personality, Personalization, Language Style, Emotion & Sentiment
+- Instructiveness: Strategy, Behavior
+
 也分别在以上三个角度讲诉了最近发表的一些 Paper，可以在黄老师官网上查看相关 Paper.
 ### 2.2.2 人工智能在机对话系统中的技术现状与挑战, by Rui Yan
 ### 2.2.3 Semantic Parsing for Search Engine & Conversational AI: Background, Methodology and Latest Progress, by Nan DUAN
